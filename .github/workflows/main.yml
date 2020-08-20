@@ -31,7 +31,8 @@ jobs:
       run : ls ${{github.workspace}}\PartsUnlimited-aspnet45\src\PartsUnlimitedWebsite
     - name: Nuget Restore
       run: |
-        & '${{github.workspace}}\PartsUnlimited-aspnet45\src\PartsUnlimitedWebsite nuget restore'
+        cd ${{github.workspace}}\PartsUnlimited-aspnet45\src\PartsUnlimitedWebsite
+        nuget restore
       
 #    - name: Build the Project
 #      run: |
