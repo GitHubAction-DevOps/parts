@@ -6,7 +6,7 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master1 ]
+    branches: [ master ]
 
 env:
   app_pool_name: partspool
@@ -45,30 +45,30 @@ jobs:
           ${{github.workspace}}\*.bacpac
           ${{github.workspace}}\*.ps1
   
-  Database:
-    runs-on: db
-    needs: [build]
-    steps:
-    - name: Download Build Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: artifacts
-        path: ${{github.workspace}}
-    - name: list
-      run : ls ${{github.workspace}}
+ # Database:
+ #   runs-on: db
+ #   needs: [build]
+ #   steps:
+ #   - name: Download Build Artifact
+ #     uses: actions/download-artifact@v2
+ #     with:
+ #       name: artifacts
+ #       path: ${{github.workspace}}
+ #   - name: list
+ #     run : ls ${{github.workspace}}
       
-    - name: list1
-      run : ls ${{github.workspace}}\stagingdir
-    - name: Restore the database
-      run: |
-         & 'C:\Program Files\sqlpackage-win7-x64-en-US-15.0.4826.1\sqlpackage.exe' /Action:Import /sf:${{github.workspace}}\partsunlimited.bacpac /tsn:${{env.server_name}} /tdn:${{env.database}} /tu:${{env.db_user}} /tp:${{ secrets.db_password }}
+ #   - name: list1
+ #     run : ls ${{github.workspace}}\stagingdir
+ #   - name: Restore the database
+ #     run: |
+ #        & 'C:\Program Files\sqlpackage-win7-x64-en-US-15.0.4826.1\sqlpackage.exe' /Action:Import /sf:${{github.workspace}}\partsunlimited.bacpac /tsn:${{env.server_name}} /tdn:${{env.database}} /tu:${{env.db_user}} /tp:${{ secrets.db_password }}
+ #   
+ #   - name: Extract Artifact
+ #     run: expand-archive -path ${{github.workspace}}\stagingdir\*.zip -destinationpath '.\webapp'
     
-    - name: Extract Artifact
-      run: expand-archive -path ${{github.workspace}}\stagingdir\*.zip -destinationpath '.\webapp'
-    
-    - name: Run Powershell
-      run: |
-        & '${{github.workspace}}\app_pool.ps1 -pool_name ${{env.app_pool_name}} -app_name ${{env.app_name}} -workspace ${{github.workspace}} -packagepath ${{env.PACKAGE_TEMP_PATH}}'
+ #   - name: Run Powershell
+ #     run: |
+ #       & '${{github.workspace}}\app_pool.ps1 -pool_name ${{env.app_pool_name}} -app_name ${{env.app_name}} -workspace ${{github.workspace}} -packagepath ${{env.PACKAGE_TEMP_PATH}}'
 #      shell: pwsh     
 #    - name: Create App pool
 #      run: New-WebAppPool -Name ${{env.app_pool_name}} -Force
