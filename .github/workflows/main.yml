@@ -35,7 +35,7 @@ jobs:
 #        msbuild PartsUnlimited.sln /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir" 
     
     - name: list files
-      run : ls ${{github.workspace}}\stagingdir
+      run : ls ${{github.workspace}}
 #    - name: Upload Build Artifacts
 #      uses: actions/upload-artifact@2.1.0
 #      with:  
